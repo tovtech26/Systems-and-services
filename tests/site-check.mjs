@@ -21,6 +21,16 @@ const html = readFileSync(htmlPath, "utf8");
 const css = readFileSync(cssPath, "utf8");
 const js = readFileSync(jsPath, "utf8");
 
+assert(html.includes("executive-design"), "Executive design marker is missing");
+assert(html.includes("executive-hero"), "Executive hero marker is missing");
+assert(html.includes("assets/sse-logo.png"), "SSE logo image is not referenced");
+assert(existsSync(join(root, "assets", "sse-logo.png")), "SSE logo asset is missing");
+assert((html.match(/assets\/sse-logo\.png/g) || []).length >= 3, "SSE logo should appear in at least three site areas");
+["--navy", "--paper", "--gold"].forEach((token) => {
+  assert(css.includes(token), `Missing executive palette token: ${token}`);
+});
+assert(!css.includes("background-size: 72px 72px"), "Old technical grid background should be removed");
+
 [
   "hero",
   "proof",
