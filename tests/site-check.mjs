@@ -23,13 +23,24 @@ const js = readFileSync(jsPath, "utf8");
 
 assert(html.includes("executive-design"), "Executive design marker is missing");
 assert(html.includes("executive-hero"), "Executive hero marker is missing");
-assert(html.includes("assets/sse-logo.png"), "SSE logo image is not referenced");
-assert(existsSync(join(root, "assets", "sse-logo.png")), "SSE logo asset is missing");
-assert((html.match(/assets\/sse-logo\.png/g) || []).length >= 3, "SSE logo should appear in at least three site areas");
+assert(html.includes("assets/trinity-knot-logo.png"), "Trinity knot logo image is not referenced");
+assert(existsSync(join(root, "assets", "trinity-knot-logo.png")), "Trinity knot logo asset is missing");
+assert((html.match(/assets\/trinity-knot-logo\.png/g) || []).length >= 3, "Trinity knot logo should appear in at least three site areas");
 ["--navy", "--paper", "--gold"].forEach((token) => {
   assert(css.includes(token), `Missing executive palette token: ${token}`);
 });
+["--copper", "--concrete", "--teal-deep"].forEach((token) => {
+  assert(css.includes(token), `Missing copper/concrete design token: ${token}`);
+});
+[
+  "stitch-inspired",
+  "structural-disciplines",
+  "project-intelligence",
+].forEach((marker) => {
+  assert(html.includes(marker), `Missing Stitch-inspired executive marker: ${marker}`);
+});
 assert(!css.includes("background-size: 72px 72px"), "Old technical grid background should be removed");
+assert(!/Material Integrity|The raw truth|Apex Pavilion|London, UK|240\+|2024 SSE/i.test(html), "Stitch placeholder content should not be present");
 
 [
   "hero",
